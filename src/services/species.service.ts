@@ -27,11 +27,9 @@ class SpeciesService {
     const species = await SpeciesM.findById(id).catch((error) => {
       console.log('Error while connecting to the DB', error)
     })
-
     if (!species) {
       throw boom.notFound('Especie no encontrada')
     }
-
     return species
   }
 
@@ -39,10 +37,20 @@ class SpeciesService {
     const species = await SpeciesM.findOne({ name }).catch((error) => {
       console.log('Error while connecting to the DB', error)
     })
-
     if (!species) {
       throw boom.notFound('Especie no encontrada')
     }
+    return species
+  }
+
+  async deleteById(id: string) {
+    const species = await SpeciesM.findByIdAndDelete(id).catch((error) => {
+      console.log('Error while connecting to the DB', error)
+    })
+    if (!species) {
+      throw boom.notFound('Especie no encontrada')
+    }
+    return species
   }
 }
 
