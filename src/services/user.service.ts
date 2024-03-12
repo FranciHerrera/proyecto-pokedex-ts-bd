@@ -10,11 +10,11 @@ class UserService {
       ...user,
       password: hashedPassword
     }).catch((error) => {
-      console.log('Could not save user', error)
+      console.log('No se pudo guardar el usuario', error)
     })
 
     if (!newUser) {
-      throw boom.badRequest('Could not create user')
+      throw boom.badRequest('No se pudo crear el usuario')
     }
 
     return newUser
@@ -22,11 +22,11 @@ class UserService {
 
   async findByEmail(email: string) {
     const user = await Users.findOne({ email }).catch((error) => {
-      console.log('Could not retrieve user info', error)
+      console.log('No se recupero la informacion del usuario', error)
     })
 
     if (!user) {
-      throw boom.notFound('User not found')
+      throw boom.notFound('Usuario no encontrado')
     }
 
     return user

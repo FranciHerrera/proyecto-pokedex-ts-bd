@@ -13,6 +13,7 @@ import './utils/auth'
 const { mongoUri, port } = config
 
 const app = express()
+
 app.use(express.json())
 const connectDB = () => {
   mongoose.connect(mongoUri)
