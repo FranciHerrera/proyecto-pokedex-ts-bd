@@ -44,8 +44,8 @@ Users.methods.toClient = function () {
     id: this._id as unknown as string,
     name: this.name,
     email: this.email,
-    address: this.address,
-    phoneNumber: this.phoneNumber
+    address: this.address
+    //phoneNumber: this.phoneNumber
   }
 }
 

@@ -18,6 +18,19 @@ router.get('/', async (req, res, next) => {
     if (req.query.name) {
       const species = await service.findByName(req.query.name as string)
       res.status(200).json(species)
+    } else if (req.query.kind) {
+      const species = await service.findByKind(req.query.kind as string)
+      res.status(200).json(species)
+    } else if (req.query.danger) {
+      const species = await service.findByDanger(
+        parseInt(req.query.danger as string)
+      )
+      res.status(200).json(species)
+    } else if (req.query.speed) {
+      const species = await service.findBySpeed(
+        parseInt(req.query.speed as string)
+      )
+      res.status(200).json(species)
     } else {
       const categories = await service.findAll()
       res.status(200).json(categories)

@@ -43,6 +43,39 @@ class SpeciesService {
     return species
   }
 
+  async findByKind(kind: string) {
+    const species = await SpeciesM.find({ kind }).catch((error) => {
+      console.log('Error while connecting to the DB', error)
+      throw boom.badImplementation('Error while connecting to the DB')
+    })
+    if (!species) {
+      throw boom.notFound('Especies no encontradas')
+    }
+    return species
+  }
+
+  async findByDanger(danger: number) {
+    const species = await SpeciesM.find({ danger }).catch((error) => {
+      console.log('Error while connecting to the DB', error)
+      throw boom.badImplementation('Error while connecting to the DB')
+    })
+    if (!species) {
+      throw boom.notFound('Especies no encontradas')
+    }
+    return species
+  }
+
+  async findBySpeed(speed: number) {
+    const species = await SpeciesM.find({ speed }).catch((error) => {
+      console.log('Error while connecting to the DB', error)
+      throw boom.badImplementation('Error while connecting to the DB')
+    })
+    if (!species) {
+      throw boom.notFound('Especies no encontradas')
+    }
+    return species
+  }
+
   async deleteById(id: string) {
     const species = await SpeciesM.findByIdAndDelete(id).catch((error) => {
       console.log('Error while connecting to the DB', error)

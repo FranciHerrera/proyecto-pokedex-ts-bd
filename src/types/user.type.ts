@@ -3,6 +3,7 @@ import type { Request } from 'express'
 
 export type User = ToClientUser & {
   password: string
+  phoneNumber: string
   createdAt?: Date
   lastModified?: Date
 }
@@ -16,7 +17,7 @@ export type ToClientUser = {
   name: string
   email: string
   address: string
-  phoneNumber: string
+  //phoneNumber: string
 }
 
 export type UserMethods = {
