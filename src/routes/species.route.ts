@@ -3,90 +3,72 @@ import { Species } from '../types/species.type'
 import SpeciesService from '../services/species.service'
 import passport from 'passport'
 import { UserRequestType } from '../types/user.type'
+import boom from '@hapi/boom'
 
 const router = express.Router()
 const service = new SpeciesService()
 
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  async (req: UserRequestType, res, next) => {
+    try {
+      if (req.query.name) {
+        const { name } = req.query
+        const species = await service.findByName(name as string)
+        return res.status(200).json(species)
+      }
+
+      if (req.query.danger) {
+        const { danger } = req.query
+        const species = await service.findByDanger(parseInt(danger as string))
+        return res.status(200).json(species)
+      }
+
+      if (req.query.speed) {
+        const { speed } = req.query
+        const species = await service.findBySpeed(parseInt(speed as string))
+        return res.status(200).json(species)
+      }
+
+      if (req.query.id) {
+        const { id } = req.query
+        const species = await service.findById(id as string)
+        return res.status(200).json(species)
+      }
+
+      if (req.query.kind) {
+        const { kind } = req.query
+        const species = await service.findByKindName(kind as string)
+        return res.status(200).json(species)
+      }
+
+      if (req.query.kindId) {
+        const { kindId } = req.query
+        const species = await service.findByKindId(kindId as string)
+        return res.status(200).json(species)
+      }
+
+      const species = await service.findAll()
+      res.status(200).json(species)
+    } catch (error) {
+      console.error('Error:', error)
+      next(boom.boomify(error))
+    }
+  }
+)
+
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
-  async (req, res) => {
-    const species: Species = req.body
-    const newSpecies = await service.create(species)
-    res.status(201).json({
-      Especie: 'Agregada'
-    })
-  }
-)
-
-router.get(
-  '/',
-  passport.authenticate('jwt', { session: false }),
   async (req, res, next) => {
     try {
-      if (req.query.name) {
-        const species = await service.findByName(req.query.name as string)
-        res.status(200).json(species)
-      } else if (req.query.kind) {
-        const species = await service.findByKind(req.query.kind as string)
-        res.status(200).json(species)
-      } else if (req.query.danger) {
-        const species = await service.findByDanger(
-          parseInt(req.query.danger as string)
-        )
-        res.status(200).json(species)
-      } else if (req.query.speed) {
-        const species = await service.findBySpeed(
-          parseInt(req.query.speed as string)
-        )
-        res.status(200).json(species)
-      } else {
-        const categories = await service.findAll()
-        res.status(200).json(categories)
-      }
+      const species: Species = req.body
+      const newSpecie = await service.create(species)
+      res.status(201).json(newSpecie)
     } catch (error) {
-      next(error)
-    }
-  }
-)
-
-router.get(
-  '/:id',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res, next) => {
-    try {
-      const species = await service.findById(req.params.id)
-      res.status(200).json(species)
-    } catch (error) {
-      next(error)
-    }
-  }
-)
-
-router.delete(
-  '/:id',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res, next) => {
-    try {
-      const species = await service.deleteById(req.params.id)
-      res.status(200).json({
-        Especie: 'borrada'
-      })
-    } catch (error) {
-      next(error)
-    }
-  }
-)
-
-router.get(
-  '/',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res, next) => {
-    try {
-      const species = await service.findById(req.query.name as string)
-      res.status(200).json(species)
-    } catch (error) {
-      next(error)
+      console.error('Error:', error)
+      next(boom.boomify(error))
     }
   }
 )
