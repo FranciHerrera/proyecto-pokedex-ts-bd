@@ -9,12 +9,14 @@ import routerApi from './routes'
 import { config } from './config/config'
 import passport from 'passport'
 import './utils/auth'
+import cors from 'cors'
 
 const { mongoUri, port } = config
 
 const app = express()
 
 app.use(express.json())
+app.use(cors())
 const connectDB = () => {
   mongoose.connect(mongoUri)
 }

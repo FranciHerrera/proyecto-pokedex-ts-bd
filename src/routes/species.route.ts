@@ -73,4 +73,50 @@ router.post(
   }
 )
 
+router.get('/getspecies', async (req: UserRequestType, res, next) => {
+  try {
+    if (req.query.name) {
+      const { name } = req.query
+      const species = await service.findByName(name as string)
+      return res.status(200).json(species)
+    }
+
+    if (req.query.danger) {
+      const { danger } = req.query
+      const species = await service.findByDanger(parseInt(danger as string))
+      return res.status(200).json(species)
+    }
+
+    if (req.query.speed) {
+      const { speed } = req.query
+      const species = await service.findBySpeed(parseInt(speed as string))
+      return res.status(200).json(species)
+    }
+
+    if (req.query.id) {
+      const { id } = req.query
+      const species = await service.findById(id as string)
+      return res.status(200).json(species)
+    }
+
+    if (req.query.kind) {
+      const { kind } = req.query
+      const species = await service.findByKindName(kind as string)
+      return res.status(200).json(species)
+    }
+
+    if (req.query.kindId) {
+      const { kindId } = req.query
+      const species = await service.findByKindId(kindId as string)
+      return res.status(200).json(species)
+    }
+
+    const species = await service.findAll()
+    res.status(200).json(species)
+  } catch (error) {
+    console.error('Error:', error)
+    next(boom.boomify(error))
+  }
+})
+
 export default router
